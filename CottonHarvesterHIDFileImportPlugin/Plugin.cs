@@ -62,7 +62,6 @@ namespace CottonHarvesterHIDFileImportPlugin
                     //Import each file
                     PublisherDataModel.Data data = new PublisherDataModel.Data();
                     data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
-                    PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
                     DataMappers.DataMapper.MapData(data, adm);
                 }
 

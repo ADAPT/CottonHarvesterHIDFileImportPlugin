@@ -63,33 +63,86 @@ namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
                     continue;
                 }
 
-                hidRecord.ModuleID = currentRecord[0];
-                hidRecord.ModuleSN = currentRecord[1];
-                hidRecord.Lat = currentRecord[2];
-                hidRecord.Lon = currentRecord[3];
-                hidRecord.GMTDate = currentRecord[4];
-                hidRecord.GMTTime = currentRecord[5];
-                hidRecord.TagCount = currentRecord[6];
-                hidRecord.Client = currentRecord[7];
-                hidRecord.Farm = currentRecord[8];
-                hidRecord.Field = currentRecord[9];
-                hidRecord.Variety = currentRecord[10];
-                hidRecord.MachinePIN = currentRecord[11];
-                hidRecord.Operator = currentRecord[12];
-                hidRecord.GinID = currentRecord[13];
-                hidRecord.ProducerID = currentRecord[14];
-                hidRecord.LocalTime = currentRecord[15];
-                hidRecord.FieldArea = currentRecord[16];
-                hidRecord.SeasonTotalModules = currentRecord[17];
-                hidRecord.Moisture = currentRecord[18];
-                hidRecord.Diameter = currentRecord[19];
-                hidRecord.Weight = currentRecord[20];
-                hidRecord.DropLat = currentRecord[21];
-                hidRecord.DropLon = currentRecord[22];
-                hidRecord.FieldTotal = currentRecord[23];
-                hidRecord.IncrementalArea = currentRecord[24];
-                hidRecord.LocalDate = currentRecord[25];
-                hidRecord.Comment = currentRecord[26];
+                hidRecord.ModuleID = "";
+                if (currentRecord[0].Length > 0) { hidRecord.ModuleID = currentRecord[0]; }
+
+                hidRecord.ModuleID = "";
+                if (currentRecord[1].Length > 0) { hidRecord.ModuleID = currentRecord[1]; }
+
+                hidRecord.Lat = "";
+                if (currentRecord[2].Length > 0) { hidRecord.Lat = currentRecord[2]; }
+
+                hidRecord.Lon = "";
+                if (currentRecord[3].Length > 0) { hidRecord.Lon = currentRecord[3]; }
+
+                hidRecord.GMTDate = "";
+                if (currentRecord[4].Length > 0) { hidRecord.GMTDate = currentRecord[4]; }
+
+                hidRecord.GMTTime = "";
+                if (currentRecord[5].Length > 0) { hidRecord.GMTTime = currentRecord[5]; }
+
+                hidRecord.TagCount = "";
+                if (currentRecord[6].Length > 0) { hidRecord.TagCount = currentRecord[6]; }
+
+                hidRecord.Client = "";
+                if (currentRecord[7].Length > 0) { hidRecord.Client = currentRecord[7]; }
+
+                hidRecord.Farm = "";
+                if (currentRecord[8].Length > 0) { hidRecord.Farm = currentRecord[8]; }
+
+                hidRecord.Field = "";
+                if (currentRecord[9].Length > 0) { hidRecord.Field = currentRecord[9]; }
+
+                hidRecord.Variety = "";
+                if (currentRecord[10].Length > 0) { hidRecord.Variety = currentRecord[10]; }
+
+                hidRecord.MachinePIN = "";
+                if (currentRecord[11].Length > 0) { hidRecord.MachinePIN = currentRecord[11]; }
+
+                hidRecord.Operator = "";
+                if (currentRecord[12].Length > 0) { hidRecord.Operator = currentRecord[12]; }
+
+                hidRecord.GinID = "";
+                if (currentRecord[13].Length > 0) { hidRecord.GinID = currentRecord[13]; }
+
+                hidRecord.ProducerID = "";
+                if (currentRecord[14].Length > 0) { hidRecord.ProducerID = currentRecord[14]; }
+
+                hidRecord.LocalTime = "";
+                if (currentRecord[15].Length > 0) { hidRecord.LocalTime = currentRecord[15]; }
+
+                hidRecord.FieldArea = "";
+                if (currentRecord[16].Length > 0) { hidRecord.FieldArea = currentRecord[16]; }
+
+                hidRecord.SeasonTotalModules = "";
+                if (currentRecord[17].Length > 0) { hidRecord.SeasonTotalModules = currentRecord[17]; }
+
+                hidRecord.Moisture = "";
+                if (currentRecord[18].Length > 0) { hidRecord.Moisture = currentRecord[18]; }
+
+                hidRecord.Diameter = "";
+                if (currentRecord[19].Length > 0) { hidRecord.Diameter = currentRecord[19]; }
+
+                hidRecord.Weight = "";
+                if (currentRecord[20].Length > 0) { hidRecord.Weight = currentRecord[20]; }
+
+                hidRecord.DropLat = "";
+                if (currentRecord[21].Length > 0) { hidRecord.DropLat = currentRecord[21]; }
+
+                hidRecord.DropLon = "";
+                if (currentRecord[22].Length > 0) { hidRecord.DropLon = currentRecord[22]; }
+
+                hidRecord.FieldTotal = "";
+                if (currentRecord[23].Length > 0) { hidRecord.FieldTotal = currentRecord[23]; }
+
+                hidRecord.IncrementalArea = "";
+                if (currentRecord[24].Length > 0) { hidRecord.IncrementalArea = currentRecord[24]; }
+
+                hidRecord.LocalDate = "";
+                if (currentRecord[25].Length > 0) { hidRecord.LocalDate = currentRecord[25]; }
+
+                hidRecord.Comment = "";
+                if (currentRecord[26].Length > 0) { hidRecord.Comment = currentRecord[26]; }
 
                 hidData.HIDRecords.Add(hidRecord);
             }
