@@ -16,15 +16,14 @@ namespace CottonHarvesterHIDFileImportPlugin
         string IPlugin.Owner => "AgGateway";
         public IList<IError> Errors => throw new NotImplementedException();
 
-        public IList<ApplicationDataModel> RunPlugin()
+        public IList<ApplicationDataModel> RunPlugin(string dataPath)
         {
             //A plugin publisher can choose to create one or multiple application data models as appropriate for the data
             IList<ApplicationDataModel> admList = new List<ApplicationDataModel>();
-            ApplicationDataModel adm = new ApplicationDataModel();            
-            string dataPath = @"C:\Projects\OAGi\ADAPT\JD";
+            ApplicationDataModel adm = new ApplicationDataModel();
 
             //Find any data files in the defined path
-            string[] myDataFiles = Directory.GetFiles(dataPath, "HIDC2117998B - Customized.csv", SearchOption.AllDirectories);
+            string[] myDataFiles = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories);
             if (myDataFiles.Any())
             {
                 adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
@@ -49,7 +48,7 @@ namespace CottonHarvesterHIDFileImportPlugin
             IList<ApplicationDataModel> models = new List<ApplicationDataModel>();
 
             //Find any data files in the defined path
-            string[] myDataFiles = Directory.GetFiles(dataPath, "HIDC2117998B - Customized.csv", SearchOption.AllDirectories);
+            string[] myDataFiles = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories);
             if (myDataFiles.Any())
             {
                 //A plugin publisher can choose to create one or multiple application data models as appropriate for the data
@@ -69,7 +68,7 @@ namespace CottonHarvesterHIDFileImportPlugin
                 models.Add(adm);
             }
 
-            return models;           
+            return models;
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace CottonHarvesterHIDFileImportPlugin
         /// <returns></returns>
         Properties IPlugin.GetProperties(string dataPath)
         {
-            
+
             throw new NotImplementedException();
         }
 
