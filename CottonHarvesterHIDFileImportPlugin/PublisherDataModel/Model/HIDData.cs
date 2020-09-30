@@ -47,65 +47,7 @@ namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
 
     public class FlatFileHelper
     {
-        public static string ConvertFlatFileToJSON(string input)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("{\"HIDData\": { \"HIDRecords\": [");
-
-            string[] result = input.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            for (int i = 0; i <= result.GetUpperBound(0); i++)
-            {
-                foreach (string j in result)
-                {
-                    string[] currentRecord = j.Split(',');
-                    if (currentRecord[0].Equals(("Module ID")))
-                    {
-                        continue;
-                    }
-                    sb.Append("{");
-                    sb.Append("\"ModuleID\": \"" + currentRecord[0]);
-                    sb.Append("\"ModuleSN\": \"" + currentRecord[1]);
-                    sb.Append("\"Lat\": \"" + currentRecord[2]);
-                    sb.Append("\"Lon\": \"" + currentRecord[3]);
-                    sb.Append("\"GMT Date\": \"" + currentRecord[4]);
-                    sb.Append("\"GMT Time\": \"" + currentRecord[5]);
-                    sb.Append("\"Tag Count\": \"" + currentRecord[6]);
-                    sb.Append("\"Client\": \"" + currentRecord[7]);
-                    sb.Append("\"Farm\": \"" + currentRecord[8]);
-                    sb.Append("\"Field\": \"" + currentRecord[9]);
-                    sb.Append("\"Variety\": \"" + currentRecord[10]);
-                    sb.Append("\"Machine PIN\": \"" + currentRecord[11]);
-                    sb.Append("\"Operator\": \"" + currentRecord[12]);
-                    sb.Append("\"Gin ID\": \"" + currentRecord[13]);
-                    sb.Append("\"Producer ID\": \"" + currentRecord[14]);
-                    sb.Append("\"Local Time\": \"" + currentRecord[15]);
-                    sb.Append("\"Field Area\": \"" + currentRecord[16]);
-                    sb.Append("\"Season Total Modules\": \"" + currentRecord[17]);
-                    sb.Append("\"Moisture\": \"" + currentRecord[18]);
-                    sb.Append("\"Diameter\": \"" + currentRecord[19]);
-                    sb.Append("\"Weight\": \"" + currentRecord[20]);
-                    sb.Append("\"Drop Lat\": \"" + currentRecord[21]);
-                    sb.Append("\"Drop Lon\": \"" + currentRecord[22]);
-                    sb.Append("\"Field Total\": \"" + currentRecord[23]);
-                    sb.Append("\"Incremental Area\": \"" + currentRecord[24]);
-                    sb.Append("\"Local Date\": \"" + currentRecord[25]);
-                    sb.Append("\"Comment\": \"" + currentRecord[26]);
-                    sb.Append("}");
-
-                    if (i < result.GetUpperBound(0))
-                    {
-                        sb.Append(",");
-                    }
-                }
-            }
-
-            sb.Append("]}}");
-
-            return sb.ToString();
-        }
-
-        public static HIDData ConvertFlatFileToModel(string input)
+        public static HIDData ConvertFlatFileToJDHIDModel(string input)
         {
             HIDData hidData = new HIDData();
             HIDRecord hidRecord = new HIDRecord();
