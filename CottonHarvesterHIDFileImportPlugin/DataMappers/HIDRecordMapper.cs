@@ -38,7 +38,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             }
 
             Obs Lat = new Obs();
-            Lat.OMSourceId = obsIndex; obsIndex++;
             Lat.UoMCode = "JD-COT-HID-Lat";
             Lat.Value = hidRecord.Lat;
             Lat.GrowerId = obsCollection.GrowerId;
@@ -46,7 +45,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(Lat);
 
             Obs Lon = new Obs();
-            Lon.OMSourceId = obsIndex; obsIndex++;
             Lon.UoMCode = "JD-COT-HID-Lon";
             Lon.Value = hidRecord.Lat;
             Lon.GrowerId = obsCollection.GrowerId;
@@ -54,7 +52,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(Lon);
 
             Obs TagCount = new Obs();
-            TagCount.OMSourceId = obsIndex; obsIndex++;
             TagCount.UoMCode = "JD-COT-HID-TagCount";
             TagCount.Value = hidRecord.TagCount;
             TagCount.GrowerId = obsCollection.GrowerId;
@@ -62,7 +59,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(TagCount);
 
             Obs Variety = new Obs();
-            Variety.OMSourceId = obsIndex; obsIndex++;
             Variety.UoMCode = "JD-COT-HID-Variety";
             Variety.Value = hidRecord.Variety;
             Variety.GrowerId = obsCollection.GrowerId;
@@ -70,7 +66,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(Variety);
 
             Obs Moisture = new Obs();
-            Moisture.OMSourceId = obsIndex; obsIndex++;
             Moisture.UoMCode = "JD-COT-HID-Moisture";
             Moisture.Value = hidRecord.Moisture;
             Moisture.GrowerId = obsCollection.GrowerId;
@@ -78,7 +73,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(Moisture);
 
             Obs Diameter = new Obs();
-            Diameter.OMSourceId = obsIndex; obsIndex++;
             Diameter.UoMCode = "JD-COT-HID-Diameter";
             Diameter.Value = hidRecord.Diameter;
             Diameter.GrowerId = obsCollection.GrowerId;
@@ -86,7 +80,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(Diameter);
 
             Obs Weight = new Obs();
-            Weight.OMSourceId = obsIndex; obsIndex++;
             Weight.UoMCode = "JD-COT-HID-Weight";
             Weight.Value = hidRecord.Weight;
             Weight.GrowerId = obsCollection.GrowerId;
@@ -94,7 +87,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(Weight);
 
             Obs DropLat = new Obs();
-            DropLat.OMSourceId = obsIndex; obsIndex++;
             DropLat.UoMCode = "JD-COT-HID-DropLat";
             DropLat.Value = hidRecord.DropLat;
             DropLat.GrowerId = obsCollection.GrowerId;
@@ -102,7 +94,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(DropLat);
 
             Obs DropLon = new Obs();
-            DropLon.OMSourceId = obsIndex; obsIndex++;
             DropLon.UoMCode = "JD-COT-HID-DropLon";
             DropLon.Value = hidRecord.DropLon;
             DropLat.GrowerId = obsCollection.GrowerId;
@@ -110,7 +101,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(DropLon);
 
             Obs FieldTotal = new Obs();
-            FieldTotal.OMSourceId = obsIndex; obsIndex++;
             FieldTotal.UoMCode = "JD-COT-HID-FieldTotal";
             FieldTotal.Value = hidRecord.FieldTotal;
             FieldTotal.GrowerId = obsCollection.GrowerId;
@@ -118,7 +108,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             _obs.Add(FieldTotal);
 
             Obs IncrementalArea = new Obs();
-            IncrementalArea.OMSourceId = obsIndex; obsIndex++;
             IncrementalArea.UoMCode = "JD-COT-HID-IncrementalArea";
             IncrementalArea.Value = hidRecord.IncrementalArea;
             IncrementalArea.GrowerId = obsCollection.GrowerId;
