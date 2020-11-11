@@ -38,77 +38,77 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             }
 
             Obs Lat = new Obs();
-            Lat.UoMCode = "JD-COT-HID-Lat";
+            //Lat.OMCode = "JD-COT-HID-Lat";
             Lat.Value = hidRecord.Lat;
             Lat.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(Lat.Id.ReferenceId);
             _obs.Add(Lat);
 
             Obs Lon = new Obs();
-            Lon.UoMCode = "JD-COT-HID-Lon";
+            //Lon.OMCode = "JD-COT-HID-Lon";
             Lon.Value = hidRecord.Lat;
             Lon.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(Lon.Id.ReferenceId);
             _obs.Add(Lon);
 
             Obs TagCount = new Obs();
-            TagCount.UoMCode = "JD-COT-HID-TagCount";
+            //TagCount.OMCode = "JD-COT-HID-TagCount";
             TagCount.Value = hidRecord.TagCount;
             TagCount.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(TagCount.Id.ReferenceId);
             _obs.Add(TagCount);
 
             Obs Variety = new Obs();
-            Variety.UoMCode = "JD-COT-HID-Variety";
+            //Variety.OMCode = "JD-COT-HID-Variety";
             Variety.Value = hidRecord.Variety;
             Variety.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(Variety.Id.ReferenceId);
             _obs.Add(Variety);
 
             Obs Moisture = new Obs();
-            Moisture.UoMCode = "JD-COT-HID-Moisture";
+            //Moisture.OMCode = "JD-COT-HID-Moisture";
             Moisture.Value = hidRecord.Moisture;
             Moisture.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(Moisture.Id.ReferenceId);
             _obs.Add(Moisture);
 
             Obs Diameter = new Obs();
-            Diameter.UoMCode = "JD-COT-HID-Diameter";
+            //Diameter.OMCode = "JD-COT-HID-Diameter";
             Diameter.Value = hidRecord.Diameter;
             Diameter.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(Diameter.Id.ReferenceId);
             _obs.Add(Diameter);
 
             Obs Weight = new Obs();
-            Weight.UoMCode = "JD-COT-HID-Weight";
+            //Weight.OMCode = "JD-COT-HID-Weight";
             Weight.Value = hidRecord.Weight;
             Weight.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(Weight.Id.ReferenceId);
             _obs.Add(Weight);
 
             Obs DropLat = new Obs();
-            DropLat.UoMCode = "JD-COT-HID-DropLat";
+            //DropLat.OMCode = "JD-COT-HID-DropLat";
             DropLat.Value = hidRecord.DropLat;
             DropLat.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(DropLat.Id.ReferenceId);
             _obs.Add(DropLat);
 
             Obs DropLon = new Obs();
-            DropLon.UoMCode = "JD-COT-HID-DropLon";
+            //DropLon.OMCode = "JD-COT-HID-DropLon";
             DropLon.Value = hidRecord.DropLon;
             DropLat.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(DropLon.Id.ReferenceId);
             _obs.Add(DropLon);
 
             Obs FieldTotal = new Obs();
-            FieldTotal.UoMCode = "JD-COT-HID-FieldTotal";
+            //FieldTotal.OMCode = "JD-COT-HID-FieldTotal";
             FieldTotal.Value = hidRecord.FieldTotal;
             FieldTotal.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(FieldTotal.Id.ReferenceId);
             _obs.Add(FieldTotal);
 
             Obs IncrementalArea = new Obs();
-            IncrementalArea.UoMCode = "JD-COT-HID-IncrementalArea";
+            //IncrementalArea.OMCode = "JD-COT-HID-IncrementalArea";
             IncrementalArea.Value = hidRecord.IncrementalArea;
             IncrementalArea.GrowerId = obsCollection.GrowerId;
             obsCollection.ObsIds.Add(IncrementalArea.Id.ReferenceId);
