@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+
+  <ProjectExtensions><VisualStudio><UserProperties PublisherDataModel_4ExampleData_4NDBData_1myjson__JSONSchema="2137" /></VisualStudio></ProjectExtensions>
+
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="AgGateway.ADAPT.ApplicationDataModel">
+      <HintPath>bin\Debug\netstandard2.0\AgGateway.ADAPT.ApplicationDataModel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
