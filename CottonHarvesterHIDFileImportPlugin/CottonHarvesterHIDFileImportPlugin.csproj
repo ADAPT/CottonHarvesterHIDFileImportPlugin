@@ -10,8 +10,14 @@
 
 
   <ItemGroup>
-    <PackageReference Include="AgGatewayADAPTFramework" Version="2.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="AgGateway.ADAPT.ApplicationDataModel">
+      <HintPath>bin\Debug\netstandard2.0\AgGateway.ADAPT.ApplicationDataModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

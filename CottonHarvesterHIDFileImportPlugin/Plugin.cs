@@ -22,22 +22,29 @@ namespace CottonHarvesterHIDFileImportPlugin
             IList<ApplicationDataModel> admList = new List<ApplicationDataModel>();
             ApplicationDataModel adm = new ApplicationDataModel();
 
-            //Find any data files in the defined path
-            string[] myDataFiles = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories);
-            if (myDataFiles.Any())
+            try
             {
-                adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
-
-                foreach (string myDataFile in myDataFiles)
+                //Find any data files in the defined path
+                string[] myDataFiles = Directory.GetFiles(dataPath, "*", SearchOption.TopDirectoryOnly);
+                if (myDataFiles.Any())
                 {
-                    //Import each file
-                    PublisherDataModel.Data data = new PublisherDataModel.Data();
-                    data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
-                    PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
-                    DataMappers.DataMapper.MapData(data, adm);
-                }
+                    adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
 
-                admList.Add(adm);
+                    foreach (string myDataFile in myDataFiles)
+                    {
+                        //Import each file
+                        PublisherDataModel.Data data = new PublisherDataModel.Data();
+                        data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
+                        PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
+                        DataMappers.DataMapper.MapData(data, adm);
+                    }
+
+                    admList.Add(adm);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                //Log error here if desired
             }
 
             return admList;
@@ -45,30 +52,34 @@ namespace CottonHarvesterHIDFileImportPlugin
 
         IList<ApplicationDataModel> IPlugin.Import(string dataPath, Properties properties)
         {
-            IList<ApplicationDataModel> models = new List<ApplicationDataModel>();
+            IList<ApplicationDataModel> admList = new List<ApplicationDataModel>();
+            ApplicationDataModel adm = new ApplicationDataModel();
 
-            //Find any data files in the defined path
-            string[] myDataFiles = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories);
-            if (myDataFiles.Any())
+            try
             {
-                //A plugin publisher can choose to create one or multiple application data models as appropriate for the data
-                ApplicationDataModel adm = new ApplicationDataModel();
-                adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
-                //var loads = new List<AgGateway.ADAPT.ApplicationDataModel.LoggedData.Load>();
-                //models.Add(adm);
-
-                foreach (string myDataFile in myDataFiles)
+                //Find any data files in the defined path
+                string[] myDataFiles = Directory.GetFiles(dataPath, "*", SearchOption.TopDirectoryOnly);
+                if (myDataFiles.Any())
                 {
-                    //Import each file
-                    PublisherDataModel.Data data = new PublisherDataModel.Data();
-                    data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
-                    DataMappers.DataMapper.MapData(data, adm);
-                }
+                    adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
 
-                models.Add(adm);
+                    foreach (string myDataFile in myDataFiles)
+                    {
+                        //Import each file
+                        PublisherDataModel.Data data = new PublisherDataModel.Data();
+                        data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
+                        DataMappers.DataMapper.MapData(data, adm);                        
+                    }
+
+                    admList.Add(adm);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                //Log error here if desired
             }
 
-            return models;
+            return admList;
         }
 
         /// <summary>

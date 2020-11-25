@@ -18,17 +18,17 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
 
             //Create a new observation object for our Documents object
             Observations observations = new Observations();
-            var _observations = new List<Observations>();
-            adm.Documents.Observations = _observations;
+            var myObservations = new List<Observations>();
+            adm.Documents.Observations = myObservations;
 
             //Create an ObsDataSet for our Documents object
             ObsDataset obsDataset = new ObsDataset();
 
             //Create an ADAPT container and load list object
             ContextItem parentContextItem = new ContextItem();
-            var _loads = new List<AgGateway.ADAPT.ApplicationDataModel.LoggedData.Load>();
-            var _obsCollections = new List<AgGateway.ADAPT.ApplicationDataModel.Documents.ObsCollection>();
-            var _obs = new List<AgGateway.ADAPT.ApplicationDataModel.Documents.Obs>();
+            var loads = new List<AgGateway.ADAPT.ApplicationDataModel.LoggedData.Load>();
+            var myObsCollections = new List<AgGateway.ADAPT.ApplicationDataModel.Documents.ObsCollection>();
+            var obs = new List<AgGateway.ADAPT.ApplicationDataModel.Documents.Obs>();
 
             //Map Client, Farm and Field to ADM
             MapGrowerData(myDataModel, adm.Catalog);
@@ -44,21 +44,21 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
                 load = HIDRecordMapper.MapHIDRecord(ndb, load);
                 
                 //We create a new Observation Collection for each unique load
-                obsCollection = HIDRecordMapper.MapHIDRecordObsCollection(ndb, _obs, load.Id.ReferenceId, obsCollection, obsDataset, adm);
-                _obsCollections.Add(obsCollection);
+                obsCollection = HIDRecordMapper.MapHIDRecordObsCollection(ndb, obs, load.Id.ReferenceId, obsCollection, obsDataset, adm);
+                myObsCollections.Add(obsCollection);
                 obsDataset.ObsCollectionIds.Add(obsCollection.Id.ReferenceId);
                 load.ObsCollectionId = obsCollection.Id.ReferenceId;
 
-                _loads.Add(load);
+                loads.Add(load);
             }
 
             var _obsDataSets = new List<ObsDataset>();
             _obsDataSets.Add(obsDataset);
             adm.Documents.ObsDatasets = _obsDataSets;
-            adm.Documents.ObsCollections = _obsCollections;
-            adm.Documents.Obs = _obs;
+            adm.Documents.ObsCollections = myObsCollections;
+            adm.Documents.Obs = obs;
 
-            adm.Documents.Loads = _loads;
+            adm.Documents.Loads = loads;
         }
 
         public static void MapGrowerData(Data myDataModel, Catalog catalog)
