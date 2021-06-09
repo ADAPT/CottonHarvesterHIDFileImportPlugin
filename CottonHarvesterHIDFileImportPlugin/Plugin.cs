@@ -30,13 +30,26 @@ namespace CottonHarvesterHIDFileImportPlugin
                 {
                     adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
 
+                    //Import each file
                     foreach (string myDataFile in myDataFiles)
                     {
-                        //Import each file
-                        PublisherDataModel.Data data = new PublisherDataModel.Data();
-                        data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
-                        PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
-                        DataMappers.DataMapper.MapData(data, adm);
+                        //Determine file type (CSV or JSON)
+                        FileInfo fi = new FileInfo(myDataFile);
+
+                        if (fi.Extension.ToLower() == ".csv")
+                        {
+                            PublisherDataModel.Data data = new PublisherDataModel.Data();
+                            data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
+                            PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
+                            DataMappers.DataMapper.MapData(data, adm);
+                        }
+                        else if (fi.Extension.ToLower() == ".json")
+                        {
+                            PublisherDataModel.Data data = new PublisherDataModel.Data();
+                            data.HIDData = PublisherDataModel.FlatFileHelper.ConvertJsonToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
+                            PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
+                            DataMappers.DataMapper.MapData(data, adm);
+                        }
                     }
 
                     admList.Add(adm);
@@ -63,12 +76,26 @@ namespace CottonHarvesterHIDFileImportPlugin
                 {
                     adm.Catalog = new Catalog() { Description = $"ADAPT data transformation of Publisher data {DateTime.Now.ToShortDateString()} {dataPath}" };
 
+                    //Import each file
                     foreach (string myDataFile in myDataFiles)
                     {
-                        //Import each file
-                        PublisherDataModel.Data data = new PublisherDataModel.Data();
-                        data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
-                        DataMappers.DataMapper.MapData(data, adm);                        
+                        //Determine file type (CSV or JSON)
+                        FileInfo fi = new FileInfo(myDataFile);
+
+                        if(fi.Extension == ".csv")
+                        {
+                            PublisherDataModel.Data data = new PublisherDataModel.Data();
+                            data.HIDData = PublisherDataModel.FlatFileHelper.ConvertFlatFileToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
+                            PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
+                            DataMappers.DataMapper.MapData(data, adm);
+                        }
+                        else if(fi.Extension == ".json")
+                        {
+                            PublisherDataModel.Data data = new PublisherDataModel.Data();
+                            data.HIDData = PublisherDataModel.FlatFileHelper.ConvertJsonToJDHIDModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default));
+                            PublisherDataModel.FlatFileHelper.ConvertFlatFileToCustomModel(File.ReadAllText(myDataFile, System.Text.Encoding.Default), data);
+                            DataMappers.DataMapper.MapData(data, adm);
+                        }
                     }
 
                     admList.Add(adm);

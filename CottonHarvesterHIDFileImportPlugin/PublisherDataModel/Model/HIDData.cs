@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
 {
@@ -148,6 +150,37 @@ namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
             }
 
             return hidData;
+        }
+
+        public static HIDData ConvertJsonToJDHIDModel(string input)
+        {
+            HIDData hidData = new HIDData();
+
+            Root hidJsonObj = JsonConvert.DeserializeObject<Root>(input);
+
+            if(hidJsonObj.values == null)
+            {
+                Value hidJsonValObj = JsonConvert.DeserializeObject<Value>(input);
+                HIDRecord hrec = LoadHIDRecordFromJsonModel(hidJsonValObj);
+                hidData.HIDRecords.Add(hrec);
+            }
+            else
+            {
+                foreach (Value val in hidJsonObj.values)
+                {
+                    HIDRecord hrec = LoadHIDRecordFromJsonModel(val);
+                    hidData.HIDRecords.Add(hrec);
+                }
+            }
+
+            return hidData;
+        }
+
+        public static HIDRecord LoadHIDRecordFromJsonModel(Value val)
+        {
+            HIDRecord hrec = new HIDRecord();
+
+            return hrec;
         }
 
         public static void ConvertFlatFileToCustomModel(string input, Data data)
