@@ -36,26 +36,6 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
                 obsCollection.GrowerId = growerID;
             }
 
-            //obsCollection.SpatialExtent = new AgGateway.ADAPT.ApplicationDataModel.Shapes.Shape()
-
-            //Obs Lat = new Obs();
-            //Lat.OMCode = "JD-COT-HID-Lat";
-            //Lat.Value = hidRecord.Lat;
-            //Lat.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Lat.Id.ReferenceId);
-            //_obs.Add(Lat);
-
-            //Obs Lon = new Obs();
-            //Lon.OMCode = "JD-COT-HID-Lon";
-            //Lon.Value = hidRecord.Lon;
-            //Lon.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Lon.Id.ReferenceId);
-            //_obs.Add(Lon);
-
-            // Are Lat and Long above examples of parameters?
-            //a. Use SpacialExtent within the Obs object
-            //...also add it to _obs collection
-
             ObsCodeComponent lat = new ObsCodeComponent();
             lat.ComponentCode = "CC_FOI_LATITUDE";
             lat.ComponentType = "FEATURE_OF_INTEREST";
