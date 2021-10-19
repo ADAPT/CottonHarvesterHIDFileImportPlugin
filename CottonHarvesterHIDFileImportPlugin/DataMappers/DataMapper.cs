@@ -34,17 +34,17 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             MapGrowerData(myDataModel, adm.Catalog);
 
             //Import the Loads and Context Items
-            foreach (HIDRecord ndb in myDataModel.HIDData.HIDRecords)
+            foreach (HIDRecord hid in myDataModel.HIDData.HIDRecords)
             {
                 //IMPORTANT! Each one of these obsCollection iterations are for a unique load
                 AgGateway.ADAPT.ApplicationDataModel.Documents.ObsCollection obsCollection = new AgGateway.ADAPT.ApplicationDataModel.Documents.ObsCollection();
                 AgGateway.ADAPT.ApplicationDataModel.LoggedData.Load load = new AgGateway.ADAPT.ApplicationDataModel.LoggedData.Load();
 
                 //We create a new load for each unique record
-                load = HIDRecordMapper.MapHIDRecord(ndb, load);
+                load = HIDRecordMapper.MapHIDRecord(hid, load);
                 
                 //We create a new Observation Collection for each unique load
-                obsCollection = HIDRecordMapper.MapHIDRecordObsCollection(ndb, obs, load.Id.ReferenceId, obsCollection, obsDataset, adm);
+                obsCollection = HIDRecordMapper.MapHIDRecordObsCollection(hid, obs, load.Id.ReferenceId, obsCollection, obsDataset, adm);
                 myObsCollections.Add(obsCollection);
                 obsDataset.ObsCollectionIds.Add(obsCollection.Id.ReferenceId);
                 load.ObsCollectionId = obsCollection.Id.ReferenceId;

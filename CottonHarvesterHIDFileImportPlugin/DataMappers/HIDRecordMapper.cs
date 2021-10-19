@@ -14,19 +14,34 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
     {
         public static AgGateway.ADAPT.ApplicationDataModel.Documents.ObsCollection MapHIDRecordObsCollection(PublisherDataModel.HIDRecord hidRecord, List<AgGateway.ADAPT.ApplicationDataModel.Documents.Obs> _obs, int obsCollectionID, AgGateway.ADAPT.ApplicationDataModel.Documents.ObsCollection obsCollection, ObsDataset obsDataset, ApplicationDataModel adm)
         {
-            int obsIndex = 1;
-            obsCollection.OMSourceId = obsCollectionID;
+            //Create the phenomenon information
+            string GMTDate = hidRecord.GMTDate;
+            string GMTTime = hidRecord.GMTTime;
+            DateTime dt = DateTime.Parse(GMTDate + " " + GMTTime);
+            TimeScope phenTime = new TimeScope();
+            phenTime.DateContext = DateContextEnum.PhenomenonTime;
+            phenTime.TimeStamp1 = dt;
+            obsCollection.TimeScopes.Add(phenTime);
+
+            //Create the spacial extent
+            AgGateway.ADAPT.ApplicationDataModel.Shapes.Point point = new AgGateway.ADAPT.ApplicationDataModel.Shapes.Point();
+            point.X = Convert.ToDouble(hidRecord.Lon);
+            point.Y = Convert.ToDouble(hidRecord.Lat);
+            obsCollection.SpatialExtent = point;
 
             //First associate the grower with the ObservationCollection
             bool containsGrower = false;
             Grower grower = null;
             foreach (Grower currentGrower in adm.Catalog.Growers)
             {
-                if (currentGrower.Name.Trim() == hidRecord.Client.Trim())
-                {
-                    containsGrower = true;
-                    grower = currentGrower;
-                    break;
+                if(hidRecord.Client != null)
+                { 
+                    if (currentGrower.Name.Trim() == hidRecord.Client.Trim())
+                    {
+                        containsGrower = true;
+                        grower = currentGrower;
+                        break;
+                    }
                 }
             }
 
@@ -37,75 +52,110 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
                 obsCollection.GrowerId = growerID;
             }
 
-            //Obs Lat = new Obs();
-            //Lat.OMCode = "JD-COT-HID-Lat";
-            //Lat.Value = hidRecord.Lat;
-            //Lat.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Lat.Id.ReferenceId);
-            //_obs.Add(Lat);
+            ObsCodeComponent crop = new ObsCodeComponent();
+            crop.ComponentCode = "CC_FOI_CROP";
+            crop.ComponentType = "FEATURE_OF_INTEREST";
+            crop.Selector = "CROP";
+            if (hidRecord.Variety == "1") { crop.Value = "GOSHI"; } else { crop.Value = "GOSBA"; }
+            crop.Value = crop.Value;
+            crop.ValueType = OMCodeComponentValueTypeEnum.String;
+            crop.ValueUoMCode = "";
+            obsCollection.CodeComponents.Add(crop);
 
-            //Obs Lon = new Obs();
-            //Lon.OMCode = "JD-COT-HID-Lon";
-            //Lon.Value = hidRecord.Lat;
-            //Lon.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Lon.Id.ReferenceId);
-            //_obs.Add(Lon);
+            ObsCodeComponent ccvariety = new ObsCodeComponent();
+            ccvariety.ComponentCode = "CC_FOI_CROP_VARIETY_NAME";
+            ccvariety.ComponentType = "FEATURE_OF_INTEREST";
+            ccvariety.Selector = "CROP_VARIETY_NAME";
+            ccvariety.Description = "The variety of cotton crop being harvested.";
+            ccvariety.Value = hidRecord.Variety;
+            ccvariety.ValueType = OMCodeComponentValueTypeEnum.String;
+            ccvariety.ValueUoMCode = "";
+            obsCollection.CodeComponents.Add(ccvariety);
 
-            //Obs Variety = new Obs();
-            //Variety.OMCode = "CC_FOI_CROP_VARIETY_NAME";
-            //Variety.Value = hidRecord.Variety;
-            //Variety.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Variety.Id.ReferenceId);
-            //_obs.Add(Variety);
+            ObsCodeComponent client = new ObsCodeComponent();
+            client.ComponentCode = "CC_PARAM_GROWER_NAME";
+            client.ComponentType = "PARAMETER";
+            client.Selector = "GROWER_NAME";
+            client.Description = "Client who’s field is being harvested.";
+            client.Value = hidRecord.Client;
+            client.ValueType = OMCodeComponentValueTypeEnum.String;
+            client.ValueUoMCode = "";
+            obsCollection.CodeComponents.Add(client);
 
-            //Obs Moisture = new Obs();
-            //Moisture.OMCode = "A_YLD_MOISTURE";
-            //Moisture.Value = hidRecord.Moisture;
-            //Moisture.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Moisture.Id.ReferenceId);
-            //_obs.Add(Moisture);
+            ObsCodeComponent farm = new ObsCodeComponent();
+            farm.ComponentCode = "CC_FOI_FARM_NAME";
+            farm.ComponentType = "FEATURE_OF_INTEREST";
+            farm.Selector = "FARM_NAME";
+            farm.Description = "Farm being harvested.";
+            farm.Value = hidRecord.Farm;
+            farm.ValueType = OMCodeComponentValueTypeEnum.String;
+            farm.ValueUoMCode = "";
+            obsCollection.CodeComponents.Add(farm);
 
-            //Obs Diameter = new Obs();
-            //Diameter.OMCode = "A_YLD_MODULE_DIAMETER";
-            //Diameter.Value = hidRecord.Diameter;
-            //Diameter.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Diameter.Id.ReferenceId);
-            //_obs.Add(Diameter);
+            ObsCodeComponent field = new ObsCodeComponent();
+            field.ComponentCode = "CC_FOI_FIELD_NAME";
+            field.ComponentType = "FEATURE_OF_INTEREST";
+            field.Selector = "FIELD_NAME";
+            field.Description = "Farm being harvested.";
+            field.Value = hidRecord.Field;
+            field.ValueType = OMCodeComponentValueTypeEnum.String;
+            field.ValueUoMCode = "";
+            obsCollection.CodeComponents.Add(field);
 
-            //Obs Weight = new Obs();
-            //Weight.OMCode = "A_YLD_WMAS_TOTAL";
-            //Weight.Value = hidRecord.Weight;
-            //Weight.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(Weight.Id.ReferenceId);
-            //_obs.Add(Weight);
+            Obs obsMoisture = new Obs();
+            obsMoisture.TimeScopes.Add(phenTime);
+            obsMoisture.SpatialExtent = point;
+            obsMoisture.OMCode = "A_YLD_MOISTURE";
+            obsMoisture.Value = hidRecord.Moisture;
+            obsMoisture.UoMCode = "prcnt";
+            obsCollection.ObsIds.Add(obsMoisture.Id.ReferenceId);
+            _obs.Add(obsMoisture);
 
-            //Obs DropLat = new Obs();
-            //DropLat.OMCode = "JD-COT-HID-DropLat";
-            //DropLat.Value = hidRecord.DropLat;
-            //DropLat.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(DropLat.Id.ReferenceId);
-            //_obs.Add(DropLat);
+            Obs ccdiameter = new Obs();
+            ccdiameter.TimeScopes.Add(phenTime);
+            ccdiameter.SpatialExtent = point;
+            ccdiameter.OMCode = "A_YLD_MODULE_DIAMETER";
+            ccdiameter.Value = hidRecord.Diameter;
+            ccdiameter.UoMCode = "cm";
+            obsCollection.ObsIds.Add(ccdiameter.Id.ReferenceId);
+            _obs.Add(ccdiameter);
 
-            //Obs DropLon = new Obs();
-            //DropLon.OMCode = "JD-COT-HID-DropLon";
-            //DropLon.Value = hidRecord.DropLon;
-            //DropLat.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(DropLon.Id.ReferenceId);
-            //_obs.Add(DropLon);
+            Obs ccweight = new Obs();
+            ccweight.TimeScopes.Add(phenTime);
+            ccweight.SpatialExtent = point;
+            ccweight.OMCode = "A_YLD_WMAS_TOTAL";
+            ccweight.Value = hidRecord.Weight;
+            ccweight.UoMCode = "kg";
+            obsCollection.ObsIds.Add(ccweight.Id.ReferenceId);
+            _obs.Add(ccweight);
 
-            //Obs FieldTotal = new Obs();
-            //FieldTotal.OMCode = "JD-COT-HID-FieldTotal";
-            //FieldTotal.Value = hidRecord.FieldTotal;
-            //FieldTotal.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(FieldTotal.Id.ReferenceId);
-            //_obs.Add(FieldTotal);
+            Obs perBale = new Obs();
+            perBale.TimeScopes.Add(phenTime);
+            perBale.SpatialExtent = point;
+            perBale.OMCode = "A_YLD_AREA_PER_BALE";
+            perBale.Value = hidRecord.IncrementalArea;
+            perBale.UoMCode = "ha";
+            obsCollection.ObsIds.Add(perBale.Id.ReferenceId);
+            _obs.Add(perBale);
 
-            //Obs IncrementalArea = new Obs();
-            //IncrementalArea.OMCode = "JD-COT-HID-IncrementalArea";
-            //IncrementalArea.Value = hidRecord.IncrementalArea;
-            //IncrementalArea.GrowerId = obsCollection.GrowerId;
-            //obsCollection.ObsIds.Add(IncrementalArea.Id.ReferenceId);
-            //_obs.Add(IncrementalArea);
+            Obs dropLocation = new Obs();
+            dropLocation.TimeScopes.Add(phenTime);
+            dropLocation.SpatialExtent = point;
+            dropLocation.OMCode = "M_1GOSG_MODULE_DROP";
+            dropLocation.Value = point.ToString();
+            dropLocation.UoMCode = "";
+            obsCollection.ObsIds.Add(dropLocation.Id.ReferenceId);
+            _obs.Add(dropLocation);
+
+            ObsCodeComponent dropLon = new ObsCodeComponent();
+            dropLon.ComponentCode = "CC_FOI_DROP_LONGITUDE";
+            dropLon.ComponentType = "FEATURE_OF_INTEREST";
+            dropLon.Selector = "FOI_DROP_LONGITUDE";
+            dropLon.Description = "The longitude position of when the bale was dropped.";
+            dropLon.Value = hidRecord.Variety;
+            dropLon.ValueType = OMCodeComponentValueTypeEnum.String;
+            dropLon.ValueUoMCode = "";
+            obsCollection.CodeComponents.Add(dropLon);
 
             return obsCollection;
         }
@@ -117,39 +167,14 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             record.Code = "JD_1GOSG_HID";
 
             ContextItem ModuleID = new ContextItem();
-            ModuleID.Code = "M_JD_1GOSG_HID_MODULE_ID";
+            ModuleID.Code = "M_JD_1GOSG_MODULE_ID";
             ModuleID.Value = hidRecord.ModuleID;
             record.NestedItems.Add(ModuleID);
 
             ContextItem ModuleSN = new ContextItem();
-            ModuleSN.Code = "M_JD_1GOSG_HID_MODULE_SN";
+            ModuleSN.Code = "M_JD_1GOSG_MODULE_SN";
             ModuleSN.Value = hidRecord.ModuleSN;
             record.NestedItems.Add(ModuleSN);
-
-            ContextItem GMTDate = new ContextItem();
-            GMTDate.Code = "M_JD_1GOSG_HID_GMT_DATE";
-            GMTDate.Value = hidRecord.GMTDate;
-            record.NestedItems.Add(GMTDate);
-
-            ContextItem GMTTime = new ContextItem();
-            GMTTime.Code = "M_JD_1GOSG_HID_GMT_TIME";
-            GMTTime.Value = hidRecord.GMTTime;
-            record.NestedItems.Add(GMTTime);
-
-            //ContextItem Client = new ContextItem();
-            //Client.Code = "M_JD_1GOSG_HID_CLIENT";
-            //Client.Value = hidRecord.Client;
-            //record.NestedItems.Add(Client);
-
-            //ContextItem Farm = new ContextItem();
-            //Farm.Code = "M_JD_1GOSG_HID_FARM";
-            //Farm.Value = hidRecord.Farm;
-            //record.NestedItems.Add(Farm);
-
-            //ContextItem Field = new ContextItem();
-            //Field.Code = "M_JD_1GOSG_HID_FIELD";
-            //Field.Value = hidRecord.Field;
-            //record.NestedItems.Add(Field);
 
             ContextItem MachinePIN = new ContextItem();
             MachinePIN.Code = "M_JD_1GOSG_HID_MACHINE_PIN";
@@ -171,18 +196,13 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             ProducerID.Value = hidRecord.ProducerID;
             record.NestedItems.Add(ProducerID);
 
-            ContextItem LocalTime = new ContextItem();
-            LocalTime.Code = "M_JD_1GOSG_HID_LOCAL_TIME";
-            LocalTime.Value = hidRecord.LocalTime;
-            record.NestedItems.Add(LocalTime);
-
             ContextItem FieldArea = new ContextItem();
-            FieldArea.Code = "M_JD_1GOSG_HID_FIELD_AREA";
+            FieldArea.Code = "M_1GOSG_MODULE_CUMULATIVE_FIELD_AREA";
             FieldArea.Value = hidRecord.FieldArea;
             record.NestedItems.Add(FieldArea);
 
             ContextItem SeasonTotalModules = new ContextItem();
-            SeasonTotalModules.Code = "M_JD_1GOSG_HID_SEASON_TOTAL_MODULES";
+            SeasonTotalModules.Code = "M_1GOSG_SEASON_TOTAL_MODULES";
             SeasonTotalModules.Value = hidRecord.SeasonTotalModules;
             record.NestedItems.Add(SeasonTotalModules);
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
 {
@@ -66,8 +68,8 @@ namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
                 hidRecord.ModuleID = "";
                 if (currentRecord[0].Length > 0) { hidRecord.ModuleID = currentRecord[0]; }
 
-                hidRecord.ModuleID = "";
-                if (currentRecord[1].Length > 0) { hidRecord.ModuleID = currentRecord[1]; }
+                hidRecord.ModuleSN = "";
+                if (currentRecord[1].Length > 0) { hidRecord.ModuleSN = currentRecord[1]; }
 
                 hidRecord.Lat = "";
                 if (currentRecord[2].Length > 0) { hidRecord.Lat = currentRecord[2]; }
@@ -148,6 +150,109 @@ namespace CottonHarvesterHIDFileImportPlugin.PublisherDataModel
             }
 
             return hidData;
+        }
+
+        public static HIDData ConvertJsonToJDHIDModel(string input)
+        {
+            HIDData hidData = new HIDData();
+
+            Root hidJsonObj = JsonConvert.DeserializeObject<Root>(input);
+
+            if(hidJsonObj.values == null)
+            {
+                Value hidJsonValObj = JsonConvert.DeserializeObject<Value>(input);
+                HIDRecord hrec = LoadHIDRecordFromJsonModel(hidJsonValObj);
+                hidData.HIDRecords.Add(hrec);
+            }
+            else
+            {
+                foreach (Value val in hidJsonObj.values)
+                {
+                    HIDRecord hrec = LoadHIDRecordFromJsonModel(val);
+                    hidData.HIDRecords.Add(hrec);
+                }
+            }
+
+            return hidData;
+        }
+
+        public static HIDRecord LoadHIDRecordFromJsonModel(Value val)
+        {
+            HIDRecord hidRecord = new HIDRecord();
+            
+            hidRecord.ModuleID = "";
+            if (val.moduleId.Length > 0) { hidRecord.ModuleID = val.moduleId; }
+
+            hidRecord.ModuleSN = "";
+            if (val.moduleSerialNumber.ToString().Length > 0) { hidRecord.ModuleSN = val.moduleSerialNumber.ToString(); }
+
+            hidRecord.Lat = "";
+            if (val.dropLocation.lat.ToString().Length > 0) { hidRecord.Lat = val.dropLocation.lat.ToString(); }
+
+            hidRecord.Lon = "";
+            if (val.dropLocation.lon.ToString().Length > 0) { hidRecord.Lon = val.dropLocation.lon.ToString(); }
+
+            hidRecord.GMTDate = "";
+            if (val.wrapDateTime.ToString().Length > 0) { hidRecord.GMTDate = val.wrapDateTime.ToString(); }
+
+            //hidRecord.GMTTime = "";
+            //if (currentRecord[5].Length > 0) { hidRecord.GMTTime = currentRecord[5]; }
+
+            hidRecord.TagCount = "";
+            if (val.tagCount.ToString().Length > 0) { hidRecord.TagCount = val.tagCount.ToString(); }
+
+            //hidRecord.Client = "";
+            //if (val..Length > 0) { hidRecord.Client = currentRecord[7]; }
+
+            //hidRecord.Farm = "";
+            //if (currentRecord[8].Length > 0) { hidRecord.Farm = currentRecord[8]; }
+
+            //hidRecord.Field = "";
+            //if (currentRecord[9].Length > 0) { hidRecord.Field = currentRecord[9]; }
+
+            hidRecord.Variety = "";
+            if (val.varietyName.Length > 0) { hidRecord.Variety = val.varietyName; }
+
+            hidRecord.MachinePIN = "";
+            if (val.machinePin.Length > 0) { hidRecord.MachinePIN = val.machinePin; }
+
+            hidRecord.Operator = "";
+            if (val.@operator.Length > 0) { hidRecord.Operator = val.@operator; }
+
+            hidRecord.GinID = "";
+            if (val.ginId.Length > 0) { hidRecord.GinID = val.ginId; }
+
+            hidRecord.ProducerID = "";
+            if (val.producerId.Length > 0) { hidRecord.ProducerID = val.producerId; }
+
+            //hidRecord.FieldArea = "";
+            //if (val.incrementalArea.Length > 0) { hidRecord.FieldArea = val.incrementalArea; }
+
+            //hidRecord.SeasonTotalModules = "";
+            //if (val..Length > 0) { hidRecord.SeasonTotalModules = currentRecord[17]; }
+
+            hidRecord.Moisture = "";
+            if (val.moisture.value.ToString().Length > 0) { hidRecord.Moisture = val.moisture.value.ToString(); }
+
+            hidRecord.Diameter = "";
+            if (val.diameter.value.ToString().Length > 0) { hidRecord.Diameter = val.diameter.value.ToString(); }
+
+            hidRecord.Weight = "";
+            if (val.weight.value.ToString().Length > 0) { hidRecord.Weight = val.weight.value.ToString(); }
+
+            //hidRecord.FieldTotal = "";
+            //if (val.Length > 0) { hidRecord.FieldTotal = currentRecord[23]; }
+
+            hidRecord.IncrementalArea = "";
+            if (val.incrementalArea.value.ToString().Length > 0) { hidRecord.FieldArea = val.incrementalArea.value.ToString(); }
+
+            //hidRecord.LocalDate = "";
+            //if (currentRecord[25].Length > 0) { hidRecord.LocalDate = currentRecord[25]; }
+
+            hidRecord.Comment = "";
+            if (val.comment.Length > 0) { hidRecord.Comment = val.comment; }
+
+            return hidRecord;
         }
 
         public static void ConvertFlatFileToCustomModel(string input, Data data)
