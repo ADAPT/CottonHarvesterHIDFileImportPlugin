@@ -114,7 +114,7 @@ namespace CottonHarvesterHIDFileImportPlugin.DataMappers
             Obs ccdiameter = new Obs();
             ccdiameter.TimeScopes.Add(phenTime);
             ccdiameter.SpatialExtent = point;
-            ccdiameter.OMCode = "A_YLD_MODULE_DIAMETER";
+            ccdiameter.OMCode = "A_YLD_1GOSG_MODULE_DIAMETER";
             ccdiameter.Value = hidRecord.Diameter;
             ccdiameter.UoMCode = "cm";
             obsCollection.ObsIds.Add(ccdiameter.Id.ReferenceId);
